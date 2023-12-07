@@ -1,0 +1,72 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net/' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
+        classpath 'net.minecraftforge.gradle:ForgeGradle:4.1.8'
+
+    }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.21'
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+apply plugin: 'kotlin'
+
+version = '1.6.0'
+group = 'me.ciruu.abyss.AbyssMod'
+archivesBaseName = 'AbyssMod'
+
+minecraft {
+    mappings channel: 'snapshot', version: '20171003-1.12'
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21"
+
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
+
+    compile 'org.lwjgl:lwjgl:3.2.3'
+    compile 'org.lwjgl:lwjgl-glfw:3.2.3'
+    compile 'org.lwjgl:lwjgl-opengl:3.2.3'
+
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title": "AbyssMod",
+                "Specification-Vendor": "MacWareDev: MacTonight4967, And BigMF Guy 420 420, Also big thanks to Max The Retard, And Charlie Deago. Also to Christopher lefaggot",
+                "Specification-Version": "MacTonight4967",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"MacTonight4967 former Irs Building Bomber",
+                "Implementation-Timestamp": new Date().format("2023-12-6'T'4:48:000")
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
